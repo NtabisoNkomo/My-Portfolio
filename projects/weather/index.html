@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSN | Interactive Weather App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: #0f172a;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .weather-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 24px;
+            width: 350px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .search-box {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        input {
+            background: none;
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            width: 100%;
+            outline: none;
+        }
+
+        button {
+            background: #00ff88;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+
+        .weather-info i {
+            font-size: 4rem;
+            color: #00ff88;
+            margin-bottom: 1rem;
+        }
+
+        .temp {
+            font-size: 3.5rem;
+            font-weight: 700;
+        }
+
+        .location {
+            font-size: 1.2rem;
+            color: #94a3b8;
+        }
+
+        .details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="../../index.html" class="back-btn">← Back</a>
+    <div class="weather-card">
+        <div class="search-box">
+            <input type="text" id="city-input" placeholder="Search City (e.g. Johannesburg)">
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="weather-info">
+            <i class="fas fa-cloud-sun" id="w-icon"></i>
+            <div class="temp"><span id="temp">24</span>°C</div>
+            <div class="location" id="city">Johannesburg, SA</div>
+        </div>
+        <div class="details">
+            <div>
+                <p>Humidity</p>
+                <p id="humidity">45%</p>
+            </div>
+            <div>
+                <p>Wind</p>
+                <p id="wind">12 km/h</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const weatherData = {
+            "johannesburg": { temp: 24, humidity: 45, wind: 12, icon: "fa-sun" },
+            "london": { temp: 12, humidity: 80, wind: 25, icon: "fa-cloud-rain" },
+            "new york": { temp: 18, humidity: 60, wind: 15, icon: "fa-cloud" },
+            "tokyo": { temp: 21, humidity: 55, wind: 10, icon: "fa-cloud-sun" }
+        };
+
+        function updateWeather(city) {
+            const data = weatherData[city.toLowerCase()] || {
+                temp: Math.floor(Math.random() * 15) + 15,
+                humidity: Math.floor(Math.random() * 50) + 30,
+                wind: Math.floor(Math.random() * 20) + 5,
+                icon: "fa-cloud-sun"
+            };
+
+            document.getElementById('temp').innerText = data.temp;
+            document.getElementById('city').innerText = city.charAt(0).toUpperCase() + city.slice(1);
+            document.getElementById('humidity').innerText = data.humidity + "%";
+            document.getElementById('wind').innerText = data.wind + " km/h";
+            document.getElementById('w-icon').className = "fas " + data.icon;
+        }
+
+        document.getElementById('search-btn').addEventListener('click', () => {
+            const city = document.getElementById('city-input').value;
+            if (city) updateWeather(city);
+        });
+
+        document.getElementById('city-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                updateWeather(e.target.value);
+            }
+        });
+    </script>
+</body>
+
+</html>
